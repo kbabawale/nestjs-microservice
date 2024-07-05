@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s-backend
+  namespace: staging
+spec:
+  selector:
+    matchLabels:
+      app: s-backend
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: s-backend
+    spec:
+      containers:
+      - name: s-backend
+        image: k/s-backend:gcp
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: PORT
+          value: "3000"
+        - name: MONGODB_URI
+          value: ""
+        - name: SMILEIDENTITY_API_KEY
+          value: "dd-dd"
+        - name: SMILEIDENTITY_API_URL
+          value: "https://testapi.smileidentity.com/v1/id_verification"
+        - name: REDIS_HOST
+          value: "#"
+        - name: REDIS_PORT
+          value: "360"
+        - name: REDIS_PASSWORD
+          value: "#"
+        - name: SENTRY_URL
+          value: "https://##.ingest.sentry.io/##"
+        - name: GOOGLE_KEY
+          value: "#"
+        ports:
+        - containerPort: 3000
